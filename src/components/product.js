@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-  useNavigate ,
-  Routes,
-  Route,
-  Redirect
-} from "react-router-dom";
+import axios from "axios";
+
+import { useNavigate, Routes, Route, Redirect } from "react-router-dom";
 export default function Product() {
-  var products = require("../products.json");
-  let navigate=useNavigate();
+  const api = require("../api");
+
+  //var products = require("../products.json");
+  let navigate = useNavigate();
   const [likes, setLike] = useState(0);
+  const [products, setProducts] = useState([]);
+
   const [id, setId] = useState(0);
 
-
-
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const res = await api.get("products");
+        console.log(res);
+        setProducts(res.data);
+      } catch (err) {
+        console.log(err.Message);
+      }
+    };
+    getProducts();
+  }, []);
 
   const AppFrame = styled.div`
     text-align: center;
@@ -55,12 +66,12 @@ export default function Product() {
     border-radius: 25px;
   `;
   const ProductInfoWrapper = styled.div`
-  margin-top: auto;
-  margin-bottom: 5px;
-  display: flex;
-  flex-direction: column;
-  & > span {
-    text-align: center`;
+margin-top: auto;
+margin-bottom: 5px;
+display: flex;
+flex-direction: column;
+& > span {
+  text-align: center`;
 
   const Button = styled.button`
     /* Adapt the colors based on primary prop */
@@ -73,24 +84,20 @@ export default function Product() {
     border-radius: 3px;
   `;
 
-
- 
-
   return (
     <div>
       {products.map((p) => (
-
         <AppFrame>
           {p.likes < 5 ? (
             <ProductFrame>
               <ProductImageWrapper>
-                <ProductImage src={p.img}></ProductImage>
+                <ProductImage src={p.image}></ProductImage>
               </ProductImageWrapper>
               <ProductInfoWrapper>
                 <span>
-                  <a href={"/productDetails/"+p.name}>{p.name}</a>
+                  <a href={"/productDetails/" + p.name}>{p.name}</a>
                 </span>
-                 <br/>
+                <br />
                 {p.price} Dt <br />
                 likes :{p.likes}
                 <Button
@@ -100,7 +107,7 @@ export default function Product() {
                 </Button>
                 <Button
                   onClick={() => {
-                  navigate("/productDetails/"+p.name)
+                    navigate("/productDetails/" + p.name);
                   }}
                 >
                   Details
@@ -110,13 +117,13 @@ export default function Product() {
           ) : (
             <ProductFrameBest>
               <ProductImageWrapper>
-                <ProductImage src={p.img}></ProductImage>
+                <ProductImage src={p.image}></ProductImage>
               </ProductImageWrapper>
               <ProductInfoWrapper>
-              <span>
-                  <a href={"/productDetails/"+p.name}>{p.name}</a>
+                <span>
+                  <a href={"/productDetails/" + p.name}>{p.name}</a>
                 </span>
-                 <br/>
+                <br />
                 {p.price} Dt <br />
                 likes :{p.likes}
                 <Button
@@ -126,7 +133,7 @@ export default function Product() {
                 </Button>
                 <Button
                   onClick={() => {
-                  navigate("/productDetails/"+p.name)
+                    navigate("/productDetails/" + p.name);
                   }}
                 >
                   Details
@@ -135,9 +142,6 @@ export default function Product() {
             </ProductFrameBest>
           )}
         </AppFrame>
-
-        
-       
       ))}
     </div>
   );

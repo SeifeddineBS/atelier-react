@@ -96,6 +96,7 @@ export default function ProductDetails() {
   useEffect(() => {
     // Met à jour le titre du document via l’API du navigateur
     products.filter(function (data) {
+      
       if (data.name == params.id) setProduct(data);
     });
   }, []);
@@ -104,7 +105,7 @@ export default function ProductDetails() {
       <ContentBox>
         <Content1>
           <img
-            src={product?.img}
+            src={product?.image}
             width="600"
             height="600"
             alt={product?.name}

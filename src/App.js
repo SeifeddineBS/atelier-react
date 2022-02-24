@@ -14,6 +14,7 @@ import NotFoundComponent from "./components/notFoundComponent";
 import Navbar from "./components/navbar";
 import Home from "./components/home";
 
+
 function App() {
   var products = require("./products.json");
 
@@ -53,7 +54,7 @@ function App() {
     <Routes>
     <Route exact path="/" element={<Home/>}>    </Route>
 
-      <Route path="/product" element={<Product />}>    </Route>
+      <Route path="/products" element={<Product />}>    </Route>
       <Route exact path="/productDetails/:id" element={<ProductDetails />}></Route>
       <Route path='*' exact={true} element={<NotFoundComponent />} > </Route>
 
