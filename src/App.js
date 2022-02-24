@@ -1,7 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Product from "./classComponents/product";
-import FProduct from "./functionalComponent/product";
+import Product from "./components/product";
+import ProductDetails from "./components/productDetails";
+
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import {
@@ -9,6 +10,9 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import NotFoundComponent from "./components/notFoundComponent";
+import Navbar from "./components/navbar";
+import Home from "./components/home";
 
 function App() {
   var products = require("./products.json");
@@ -21,13 +25,17 @@ function App() {
   // const[{color,background},setColor]=useState({color:"red",background:"purple"});
 
 
-
+  const AppFrame = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+`;
 
 
 
   return (
 
-    <div className="App">
+    <AppFrame className="App">
       {/* <input onChange={e=>setColor(current=>({...current,color:e.target.value}))}/>
       <input onChange={e=>setColor(current=>({...current,background:e.target.value}))}/>
 
@@ -35,15 +43,25 @@ function App() {
 
       <h1>My favorite background is {background}</h1> */}
 
+    
+    
+    
+    
+      <BrowserRouter  basename="/">
+      <Navbar>  
+    </Navbar>
+    <Routes>
+    <Route exact path="/" element={<Home/>}>    </Route>
+
+      <Route path="/product" element={<Product />}>    </Route>
+      <Route exact path="/productDetails/:id" element={<ProductDetails />}></Route>
+      <Route path='*' exact={true} element={<NotFoundComponent />} > </Route>
+
 
       
-      <BrowserRouter>
-    <Routes>
-      <Route path="/fproduct" element={<FProduct />}>
-      
-      </Route>
+   
     </Routes>
-  </BrowserRouter>,
+  </BrowserRouter>
 
 
       {/* {products.map((p) => (
@@ -51,7 +69,7 @@ function App() {
           <Product product={p} />
         </AppFrame>
       ))} */}
-    </div>
+    </AppFrame>
   );
 }
 
